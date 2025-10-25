@@ -2,7 +2,7 @@
 #include <limits>
 #include <cmath>
 
-using namespace std;
+
 
 bool isPythagoreanTriple(int a, int b, int c) {
     // Проверяем все комбинации a² + b² = c²
