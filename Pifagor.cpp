@@ -5,15 +5,6 @@
 
 
 
-bool isPythagoreanTriple(int a, int b, int c) {
-    // Проверяем все комбинации a² + b² = c²
-    long long a2 = (long long)a * a;
-    long long b2 = (long long)b * b;
-    long long c2 = (long long)c * c;
-
-    return (a2 + b2 == c2) || (a2 + c2 == b2) || (b2 + c2 == a2);
-}
-
 // Задаём границу переполнения
 size_t get_max_boundary()
 {
@@ -22,6 +13,10 @@ size_t get_max_boundary()
 
 // Проверка умножения на переполнение
 size_t multiply(const size_t a, const size_t b) {
+    if (b == 0) {
+        return 0;
+    }
+
     if (a > get_max_boundary() / b) {
         throw std::overflow_error("multiplication overflow");
     }
@@ -37,6 +32,7 @@ size_t sum(const size_t a, const size_t b)
     }
     return a + b;
 }
+
 
 // Проверка вычисления Пифагоровой тройки на переполнение
 bool isPyth(const size_t a, const size_t b, const size_t c)
@@ -55,6 +51,7 @@ bool isPyth(const size_t a, const size_t b, const size_t c)
         throw; // Перебрасываем исключение дальше
     }
 }
+
 
 int main()
 {
@@ -77,12 +74,29 @@ int main()
 
     // Теперь точно есть как минимум 2 числа, можно читать третье
     while (std::cin >> c) {
-    try {
-        if (isPyth(a, b, c)) {
-            counter++;
+        try {
+            if (isPyth(a, b, c)) {
+                counter++;
+            }
         }
+        catch (const std::overflow_error& e) {  // Только переполнение!
+            std::cerr << "Error: " << e.what() << "\n";
+            return 2;
+        }
+
+        // Сдвигаем окно
+        a = b;
+        b = c;
     }
-    catch (const std::overflow_error& e) {  // Только переполнение!
-        std::cerr << "Error: " << e.what() << "\n";
-        return 2;
+
+    // Обработка завершения ввода
+    if (std::cin.eof()) {
+        std::cout << counter << "\n";
     }
+    else if (std::cin.fail()) {
+        std::cerr << "Error reading sequence\n";
+        return 1;
+    }
+
+    return 0;
+}
