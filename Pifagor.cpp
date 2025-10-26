@@ -55,3 +55,26 @@ bool isPyth(const size_t a, const size_t b, const size_t c)
         throw; // Перебрасываем исключение дальше
     }
 }
+
+int main()
+{
+    size_t counter = 0;
+    size_t a = 0, b = 0, c = 0;
+
+    // Считываем первые два числа с проверкой ошибок
+    std::cin >> a >> b;
+    if (std::cin.fail()) {
+        if (std::cin.eof()) {
+            std::cout << 0 << "\n";  // Меньше 3 чисел - троек нет
+            return 0;
+        }
+        else {
+            std::cerr << "Error reading sequence\n";
+            return 1;
+        }
+
+    }
+
+    // Теперь точно есть как минимум 2 числа, можно читать третье
+
+
