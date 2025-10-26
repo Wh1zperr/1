@@ -76,5 +76,13 @@ int main()
     }
 
     // Теперь точно есть как минимум 2 числа, можно читать третье
-
-
+    while (std::cin >> c) {
+    try {
+        if (isPyth(a, b, c)) {
+            counter++;
+        }
+    }
+    catch (const std::overflow_error& e) {  // Только переполнение!
+        std::cerr << "Error: " << e.what() << "\n";
+        return 2;
+    }
